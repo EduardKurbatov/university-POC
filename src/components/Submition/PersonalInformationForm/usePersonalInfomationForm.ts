@@ -59,7 +59,9 @@ export const usePersonalInfomationForm = () => {
       });
 
       if (response) {
-        setIsSubmited(true);
+        setTimeout(() => {
+          setIsSubmited(true);
+        }, 1500);
         window.scrollTo(0, 0);
       } else {
         setError(true);
@@ -67,7 +69,9 @@ export const usePersonalInfomationForm = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1500);
     }
   };
 
