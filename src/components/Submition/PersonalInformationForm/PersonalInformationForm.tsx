@@ -13,6 +13,9 @@ const PersonalInformationForm = () => {
   const { initialValues, isLoading, isSubmited, error, handleSubmitForm } =
     usePersonalInfomationForm();
 
+  console.log(isLoading, "l");
+  console.log(isSubmited, "s");
+
   return (
     <Formik
       initialValues={initialValues}
