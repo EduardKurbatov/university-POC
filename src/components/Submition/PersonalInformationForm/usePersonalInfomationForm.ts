@@ -61,8 +61,8 @@ export const usePersonalInfomationForm = () => {
       if (response) {
         setTimeout(() => {
           setIsSubmited(true);
+          window.scrollTo(0, 0);
         }, 1500);
-        window.scrollTo(0, 0);
       } else {
         setError(true);
       }
