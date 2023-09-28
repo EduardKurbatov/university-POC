@@ -52,17 +52,15 @@ export const usePersonalInfomationForm = () => {
         "https://dev-csp-my-uds-systems-function.azurewebsites.net/api/demo/application";
 
       setIsLoading(true);
-      window.scrollTo(0, 0);
       const response = await axios({
         url,
         method: "POST",
         data,
       });
 
-      console.log(response);
-
       if (response) {
         setIsSubmited(true);
+        window.scrollTo(0, 0);
       } else {
         setError(true);
       }

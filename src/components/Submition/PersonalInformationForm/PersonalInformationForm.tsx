@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Alert, Box, Button, CircularProgress } from "@mui/material";
 import FormSection from "../../FomrSection/FormSection";
 import ContactInformationForm from "./components/ContactInformaationForm/ContactInformationForm";
 import IdentityForm from "./components/IdentityForm/IdentityForm";
@@ -10,7 +10,8 @@ import { Formik } from "formik";
 import { validationSchema } from "./validationSchema";
 
 const PersonalInformationForm = () => {
-  const { initialValues, handleSubmitForm } = usePersonalInfomationForm();
+  const { initialValues, isLoading, isSubmited, error, handleSubmitForm } =
+    usePersonalInfomationForm();
 
   return (
     <Formik
@@ -23,6 +24,8 @@ const PersonalInformationForm = () => {
     >
       {(props) => (
         <PersonalInformationFormContainer>
+          {error && <Alert severity="error">Something went wrong!</Alert>}
+          {isSubmited && <Alert severity="success">Submited!</Alert>}
           <FormSection title="identity">
             <IdentityForm />
           </FormSection>
@@ -43,6 +46,7 @@ const PersonalInformationForm = () => {
             <Button
               variant="contained"
               color="inherit"
+              disabled={isLoading}
               sx={{
                 bgcolor: "#273d97",
                 color: "#fff",
@@ -54,6 +58,11 @@ const PersonalInformationForm = () => {
               onClick={() => props.handleSubmit()}
             >
               Save
+              {isLoading && (
+                <Box display={"flex"} alignItems={"center"} sx={{ ml: 2 }}>
+                  <CircularProgress color={"warning"} size={"14px"} />
+                </Box>
+              )}
             </Button>
           </Box>
         </PersonalInformationFormContainer>
