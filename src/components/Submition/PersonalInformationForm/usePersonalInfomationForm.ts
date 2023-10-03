@@ -22,6 +22,8 @@ export type PersonalInformation = {
   uds_languagecode: number | null;
   uds_masteredlanguagescode: number | null;
   files: File[];
+  alternativePhone: boolean | null;
+  alternativeEmail: boolean | null;
 };
 
 const initialValues: PersonalInformation = {
@@ -43,6 +45,8 @@ const initialValues: PersonalInformation = {
   uds_languagecode: null,
   uds_masteredlanguagescode: null,
   files: [],
+  alternativePhone: null,
+  alternativeEmail: null,
 };
 
 export const usePersonalInfomationForm = () => {
@@ -51,7 +55,6 @@ export const usePersonalInfomationForm = () => {
   const [error, setError] = useState(false);
 
   const handleSubmitForm = async (data: PersonalInformation) => {
-    console.log(data);
     try {
       const url =
         "https://dev-csp-my-uds-systems-function.azurewebsites.net/api/demo/application";
