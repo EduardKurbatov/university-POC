@@ -1,65 +1,85 @@
-import { Box, IconButton, TextField } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Box, IconButton } from "@mui/material";
 import { useFormikContext } from "formik";
-import { File, PersonalInformation } from "../../usePersonalInfomationForm";
-import { AddFileLabel, FileName } from "./DicumentsFormStyledComponents";
+import {
+  FilePayload,
+  PersonalInformation,
+} from "../../usePersonalInfomationForm";
+import { FileName, UploadedArea } from "./DicumentsFormStyledComponents";
 import PDFIcon from "../../../../../icons/PDFIcon";
 import ImageFormatIcon from "../../../../../icons/ImageFormatIcon";
-import CrossIcon from "../../../../../icons/CrossIcon";
+import DeleteIcon from "../../../../../icons/DeleteIcon";
+import { useDropzone } from "react-dropzone";
+import AddIcon from "../../../../../icons/AddIcon";
 
 const DocumentsForm = () => {
   const { values, setFieldValue, setErrors } =
     useFormikContext<PersonalInformation>();
+  const [files, setFiles] = useState<FilePayload[]>([]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.length) {
-      const file = e.target.files[0];
-      const isFileAdded = values.files.find(
-        (existingFile: File) => file.name === existingFile.name
-      );
+  const onDrop = async (acceptedFiles: File[]) => {
+    if (!acceptedFiles || !acceptedFiles.length) return;
 
-      if (!file || isFileAdded) return;
+    setErrors({});
 
-      const reader = new FileReader();
+    const filesPayload: FilePayload[] = [];
 
-      reader.onload = () => {
-        const base64String = btoa(reader.result as string);
-        setErrors({});
-        setFieldValue("files", [
-          ...values.files,
-          {
-            name: file.name,
-            body: base64String,
-          },
-        ]);
-      };
+    const promises = Array.from(acceptedFiles).map((file) => {
+      return new Promise<FilePayload>((resolve) => {
+        const reader = new FileReader();
 
-      reader.readAsBinaryString(file);
-    }
+        reader.onload = () => {
+          const base64String = btoa(reader.result as string);
+
+          resolve({ name: file.name, body: base64String });
+        };
+
+        reader.readAsBinaryString(file);
+      });
+    });
+
+    const resolvedStrings = await Promise.all(promises);
+
+    filesPayload.push(...resolvedStrings);
+
+    setFiles((prev) =>
+      [...prev, ...filesPayload].filter((object, index, array) => {
+        return index === array.findIndex((obj) => obj.name === object.name);
+      })
+    );
   };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      "image/jpeg": [".jpeg", ".png"],
+      "application/pdf": [".pdf"],
+    },
+  });
 
   const removeFile = (fileName: string) => {
-    const filteredFileArray = values.files.filter(
-      (file: File) => file.name !== fileName
+    const filteredFileArray = files.filter(
+      (file: FilePayload) => file.name !== fileName
     );
 
-    setFieldValue("files", filteredFileArray);
+    setFiles(filteredFileArray);
   };
+
+  useEffect(() => {
+    setFieldValue("files", files);
+  }, [files]);
 
   return (
     <Box>
       <Box sx={{ mt: 4 }}>
-        <AddFileLabel htmlFor="fileInput">Add file</AddFileLabel>
-        <TextField
-          id={"fileInput"}
-          sx={{ display: "none" }}
-          name="files"
-          variant="outlined"
-          type="file"
-          inputProps={{
-            accept: ["application/pdf", "image/jpeg", "image/png"],
-          }}
-          onChange={handleFileChange}
-        />
+        <UploadedArea isDragActive={isDragActive} {...getRootProps()}>
+          <input
+            name="files"
+            {...getInputProps()}
+            accept="application/pdf, image/jpeg, image/png"
+          />
+          <AddIcon fill={isDragActive ? "#273d97" : "#a2a4a6"} />
+        </UploadedArea>
       </Box>
 
       <Box
@@ -92,7 +112,7 @@ const DocumentsForm = () => {
                 }}
               >
                 <IconButton onClick={() => removeFile(file.name)}>
-                  <CrossIcon sx={{ fontSize: "14px" }} />
+                  <DeleteIcon sx={{ fontSize: "16px" }} />
                 </IconButton>
               </Box>
             </Box>

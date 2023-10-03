@@ -55,7 +55,7 @@ const amoutOfLanguages = [
 ];
 
 const LanguagesForm = () => {
-  const { errors, setFieldValue, setErrors } =
+  const { values, errors, setFieldValue, setErrors } =
     useFormikContext<PersonalInformation>();
 
   const onChange = (name: string, value: number | undefined) => {
@@ -67,6 +67,11 @@ const LanguagesForm = () => {
     <SectionContainer sx={{ mb: 4 }}>
       <FormFieldContainer>
         <Autocomplete
+          value={
+            languages.find(
+              (language) => language.value === values.uds_languagecode
+            ) || null
+          }
           options={languages}
           renderInput={(params) => (
             <TextField
@@ -84,6 +89,11 @@ const LanguagesForm = () => {
 
       <FormFieldContainer>
         <Autocomplete
+          value={
+            amoutOfLanguages.find(
+              (amount) => amount.value === values.uds_masteredlanguagescode
+            ) || null
+          }
           options={amoutOfLanguages}
           renderInput={(params) => (
             <TextField

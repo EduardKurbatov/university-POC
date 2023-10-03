@@ -16,7 +16,7 @@ const ContactInformationForm = () => {
     email: false,
   });
 
-  const { errors, setFieldValue, setErrors } =
+  const { values, errors, setFieldValue, setErrors } =
     useFormikContext<PersonalInformation>();
 
   const onChange = (name: string, value: string | undefined) => {
@@ -29,6 +29,7 @@ const ContactInformationForm = () => {
       <PhoneInputContainer>
         <FormFieldContainer>
           <PhoneInput
+            value={values.uds_phone}
             inputProps={{
               name: "uds_phone",
               variant: "standard",
@@ -69,6 +70,7 @@ const ContactInformationForm = () => {
           {alternativeFormFields.phone && (
             <FormFieldContainer>
               <PhoneInput
+                value={values.uds_alternativephone}
                 inputProps={{
                   name: "uds_alternativephone",
                   variant: "standard",
@@ -110,6 +112,7 @@ const ContactInformationForm = () => {
           {alternativeFormFields.email && (
             <FormFieldContainer>
               <TextField
+                value={values.uds_alternativeemailaddress}
                 sx={{ width: "100%" }}
                 name="uds_alternativeemailaddress"
                 label="Email"

@@ -23,7 +23,7 @@ const countries = [
 ];
 
 const PostalAddressForm = () => {
-  const { errors, setFieldValue, setErrors } =
+  const { values, errors, setFieldValue, setErrors } =
     useFormikContext<PersonalInformation>();
 
   const onChange = (name: string, value: number | string | undefined) => {
@@ -35,6 +35,7 @@ const PostalAddressForm = () => {
     <Box display={"flex"} flexDirection={"column"}>
       <FormFieldContainer>
         <TextField
+          value={values.uds_homeaddress}
           sx={{ width: "100%" }}
           name="uds_homeaddress"
           label="Home address"
@@ -49,6 +50,11 @@ const PostalAddressForm = () => {
         <SectionContainer>
           <FormFieldContainer>
             <Autocomplete
+              value={
+                countries.find(
+                  (country) => country.value === values.uds_countrycode
+                ) || null
+              }
               options={countries}
               renderInput={(params) => (
                 <TextField
@@ -66,6 +72,7 @@ const PostalAddressForm = () => {
 
           <FormFieldContainer>
             <TextField
+              value={values.uds_province}
               sx={{ width: "100%" }}
               name="uds_province"
               label="Province"
@@ -79,6 +86,7 @@ const PostalAddressForm = () => {
         <SectionContainer>
           <FormFieldContainer>
             <TextField
+              value={values.uds_city}
               sx={{ width: "100%" }}
               name="uds_city"
               label="City of residence"
@@ -91,9 +99,10 @@ const PostalAddressForm = () => {
 
           <FormFieldContainer>
             <TextField
+              value={values.uds_postalcode}
               sx={{ width: "100%" }}
               name="uds_postalcode"
-              label="Zip/Postaal code"
+              label="Zip/Postal code"
               variant="standard"
               required
               error={Boolean(errors.uds_postalcode)}

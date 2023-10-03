@@ -17,8 +17,9 @@ const PersonalInformationForm = () => {
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={(values) => {
-        handleSubmitForm(values);
+      onSubmit={async (values, { resetForm }) => {
+        await handleSubmitForm(values);
+        resetForm();
       }}
       validationSchema={validationSchema}
       validateOnChange={false}
@@ -60,7 +61,9 @@ const PersonalInformationForm = () => {
                   color: "#273d97",
                 },
               }}
-              onClick={() => props.handleSubmit()}
+              onClick={() => {
+                props.handleSubmit();
+              }}
             >
               Save
               {isLoading && (

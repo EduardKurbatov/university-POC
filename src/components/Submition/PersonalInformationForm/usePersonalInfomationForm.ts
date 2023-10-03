@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-export type File = { name: string; body: string };
+export type FilePayload = { name: string; body: string };
 
 export type PersonalInformation = {
   uds_civilitycode: number | null;
@@ -51,6 +51,7 @@ export const usePersonalInfomationForm = () => {
   const [error, setError] = useState(false);
 
   const handleSubmitForm = async (data: PersonalInformation) => {
+    console.log(data);
     try {
       const url =
         "https://dev-csp-my-uds-systems-function.azurewebsites.net/api/demo/application";
@@ -63,10 +64,10 @@ export const usePersonalInfomationForm = () => {
       });
 
       if (response) {
+        setIsSubmited(true);
         setTimeout(() => {
-          setIsSubmited(true);
           window.scrollTo(0, 0);
-        }, 1500);
+        }, 700);
       } else {
         setError(true);
       }
@@ -75,7 +76,7 @@ export const usePersonalInfomationForm = () => {
     } finally {
       setTimeout(() => {
         setIsLoading(false);
-      }, 1500);
+      }, 700);
     }
   };
 

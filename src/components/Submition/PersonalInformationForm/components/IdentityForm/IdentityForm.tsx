@@ -40,7 +40,7 @@ const citizenShip = [
 type Value = number | string | boolean | undefined;
 
 const IdentityForm = () => {
-  const { errors, setFieldValue, setErrors } =
+  const { values, errors, setFieldValue, setErrors } =
     useFormikContext<PersonalInformation>();
 
   const onChange = (name: string, value: Value) => {
@@ -54,6 +54,11 @@ const IdentityForm = () => {
         <FormFieldContainer>
           <Autocomplete
             options={civility}
+            value={
+              civility.find(
+                (civility) => civility.value === values.uds_civilitycode
+              ) || null
+            }
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -70,6 +75,7 @@ const IdentityForm = () => {
 
         <FormFieldContainer>
           <TextField
+            value={values.uds_lastname}
             sx={{ width: "100%" }}
             name="uds_lastname"
             label="Last Name"
@@ -82,6 +88,11 @@ const IdentityForm = () => {
         <FormFieldContainer>
           <Autocomplete
             options={citizenShip}
+            value={
+              citizenShip.find(
+                (civility) => civility.value === values.uds_citizenshipcode
+              ) || null
+            }
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -97,6 +108,7 @@ const IdentityForm = () => {
         </FormFieldContainer>
         <FormFieldContainer>
           <TextField
+            value={values.uds_identification}
             sx={{ width: "100%" }}
             name="uds_identification"
             label="Identification (Identity card or passport)"
@@ -111,6 +123,7 @@ const IdentityForm = () => {
       <SectionContainer>
         <FormFieldContainer>
           <TextField
+            value={values.uds_firstname}
             sx={{ width: "100%" }}
             name="uds_firstname"
             label="First Name"
@@ -124,6 +137,7 @@ const IdentityForm = () => {
         <FormFieldContainer>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
+              value={new Date(values.uds_birthdate)}
               disableFuture
               sx={{ width: "100%" }}
               label="Birth date"
@@ -132,20 +146,34 @@ const IdentityForm = () => {
                   name: "uds_birthdate",
                   variant: "standard",
                   error: Boolean(errors.uds_birthdate),
+                  required: true,
                 },
               }}
-              onChange={(value) =>
+              onChange={(value) => {
                 onChange(
                   "uds_birthdate",
-                  format(new Date(value as Date), "yyyy/MM/dd")
-                )
-              }
+                  value ? format(new Date(value).getTime(), "yyyy/MM/dd") : ""
+                );
+              }}
             />
           </LocalizationProvider>
         </FormFieldContainer>
 
         <FormFieldContainer>
           <Autocomplete
+            value={
+              values.uds_isdualnationality !== null
+                ? values.uds_isdualnationality
+                  ? {
+                      label: "Yes",
+                      value: true,
+                    }
+                  : {
+                      label: "No",
+                      value: false,
+                    }
+                : null
+            }
             options={[
               {
                 label: "Yes",
