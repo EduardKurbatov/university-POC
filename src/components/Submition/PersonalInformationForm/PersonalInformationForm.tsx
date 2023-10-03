@@ -8,6 +8,7 @@ import { PersonalInformationFormContainer } from "./PersonalInformationFormStyle
 import { usePersonalInfomationForm } from "./usePersonalInfomationForm";
 import { Formik } from "formik";
 import { validationSchema } from "./validationSchema";
+import DocumentsForm from "./components/DocumentsForm/DocumentsForm";
 
 const PersonalInformationForm = () => {
   const { initialValues, isLoading, isSubmited, error, handleSubmitForm } =
@@ -40,6 +41,10 @@ const PersonalInformationForm = () => {
 
           <FormSection title="languages">
             <LanguagesForm />
+          </FormSection>
+
+          <FormSection title="documents">
+            <DocumentsForm />
           </FormSection>
 
           <Box display={"flex"} justifyContent={"flex-end"} sx={{ mt: 4 }}>

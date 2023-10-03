@@ -124,6 +124,7 @@ const IdentityForm = () => {
         <FormFieldContainer>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
+              disableFuture
               sx={{ width: "100%" }}
               label="Birth date"
               slotProps={{

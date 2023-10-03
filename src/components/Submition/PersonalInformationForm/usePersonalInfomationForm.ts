@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 
+export type File = { name: string; body: string };
+
 export type PersonalInformation = {
   uds_civilitycode: number | null;
   uds_firstname: string;
@@ -19,6 +21,7 @@ export type PersonalInformation = {
   uds_alternativeemailaddress: string | null;
   uds_languagecode: number | null;
   uds_masteredlanguagescode: number | null;
+  files: File[];
 };
 
 const initialValues: PersonalInformation = {
@@ -39,6 +42,7 @@ const initialValues: PersonalInformation = {
   uds_alternativeemailaddress: "",
   uds_languagecode: null,
   uds_masteredlanguagescode: null,
+  files: [],
 };
 
 export const usePersonalInfomationForm = () => {

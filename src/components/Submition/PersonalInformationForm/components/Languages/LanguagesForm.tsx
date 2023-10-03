@@ -1,4 +1,4 @@
-import { Autocomplete, Box, TextField } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import { SectionContainer } from "./LanguageFormStyledConponents";
 import { FormFieldContainer } from "../../../../Styled/Form";
 import { useFormikContext } from "formik";
@@ -64,45 +64,43 @@ const LanguagesForm = () => {
   };
 
   return (
-    <Box>
-      <SectionContainer>
-        <FormFieldContainer>
-          <Autocomplete
-            options={languages}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                name="uds_languagecode"
-                label="Language spoken most often at home"
-                variant="standard"
-                required
-                error={Boolean(errors.uds_languagecode)}
-              />
-            )}
-            onChange={(_, item) => onChange("uds_languagecode", item?.value)}
-          />
-        </FormFieldContainer>
+    <SectionContainer sx={{ mb: 4 }}>
+      <FormFieldContainer>
+        <Autocomplete
+          options={languages}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              name="uds_languagecode"
+              label="Language spoken most often at home"
+              variant="standard"
+              required
+              error={Boolean(errors.uds_languagecode)}
+            />
+          )}
+          onChange={(_, item) => onChange("uds_languagecode", item?.value)}
+        />
+      </FormFieldContainer>
 
-        <FormFieldContainer>
-          <Autocomplete
-            options={amoutOfLanguages}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                name="uds_masteredlanguagescode"
-                label="Mastered languages"
-                variant="standard"
-                required
-                error={Boolean(errors.uds_masteredlanguagescode)}
-              />
-            )}
-            onChange={(_, item) =>
-              onChange("uds_masteredlanguagescode", item?.value)
-            }
-          />
-        </FormFieldContainer>
-      </SectionContainer>
-    </Box>
+      <FormFieldContainer>
+        <Autocomplete
+          options={amoutOfLanguages}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              name="uds_masteredlanguagescode"
+              label="Mastered languages"
+              variant="standard"
+              required
+              error={Boolean(errors.uds_masteredlanguagescode)}
+            />
+          )}
+          onChange={(_, item) =>
+            onChange("uds_masteredlanguagescode", item?.value)
+          }
+        />
+      </FormFieldContainer>
+    </SectionContainer>
   );
 };
 
