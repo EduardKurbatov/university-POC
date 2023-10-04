@@ -4,7 +4,7 @@ export const HeaderContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   width: "100%",
-  height: "120px",
+  minHeight: "120px",
   backgroundColor: "#2d2c8b",
   padding: `${theme.spacing(1)} 0`,
 }));

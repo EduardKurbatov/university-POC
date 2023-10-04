@@ -1,4 +1,4 @@
-import { Box, MenuItem } from "@mui/material";
+import { Box, IconButton, MenuItem } from "@mui/material";
 import GBFlag from "../../icons/GBFlag";
 import FRFlag from "../../icons/FRFlag";
 import {
@@ -8,8 +8,22 @@ import {
   LanguageSelect,
   NavigationLable,
 } from "./HeaderStyledComponents";
+import LogOutIcon from "../../icons/LogOutIcon";
+import React from "react";
 
-const Header = () => {
+interface HeaderProps {
+  isLoggined: boolean;
+  setIsLoggined: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Header: React.FC<HeaderProps> = ({ isLoggined, setIsLoggined }) => {
+  const handlelogOut = () => {
+    setTimeout(() => {
+      localStorage.removeItem("isLoggined");
+      setIsLoggined(false);
+    }, 700);
+  };
+
   return (
     <HeaderContainer>
       <HeaderWrapper>
@@ -41,6 +55,14 @@ const Header = () => {
               </MenuItem>
             </LanguageSelect>
           </Box>
+
+          {isLoggined && (
+            <Box sx={{ px: 1 }}>
+              <IconButton onClick={handlelogOut}>
+                <LogOutIcon fill={"#fff"} />
+              </IconButton>
+            </Box>
+          )}
         </Box>
       </HeaderWrapper>
     </HeaderContainer>
