@@ -15,7 +15,7 @@ import AddIcon from "../../../../../icons/AddIcon";
 const DocumentsForm = () => {
   const { values, setFieldValue, setErrors } =
     useFormikContext<PersonalInformation>();
-  const [files, setFiles] = useState<FilePayload[]>([]);
+  const [files, setFiles] = useState<FilePayload[]>(values.files);
 
   const onDrop = async (acceptedFiles: File[]) => {
     if (!acceptedFiles || !acceptedFiles.length) return;

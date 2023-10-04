@@ -21,7 +21,7 @@ export type PersonalInformation = {
   uds_alternativeemailaddress: string | null;
   uds_languagecode: number | null;
   uds_masteredlanguagescode: number | null;
-  files: File[];
+  files: FilePayload[];
   alternativePhone: boolean | null;
   alternativeEmail: boolean | null;
 };
@@ -54,8 +54,10 @@ export const usePersonalInfomationForm = () => {
   const [isSubmited, setIsSubmited] = useState(false);
   const [error, setError] = useState(false);
 
-  const handleSubmitForm = async (data: PersonalInformation) => {
+  const handleSubmitForm = async (data: Partial<PersonalInformation>) => {
     try {
+      delete data.alternativeEmail;
+      delete data.alternativePhone;
       const url =
         "https://dev-csp-my-uds-systems-function.azurewebsites.net/api/demo/application";
 

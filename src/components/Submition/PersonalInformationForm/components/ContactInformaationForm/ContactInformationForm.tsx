@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Autocomplete, Box, TextField } from "@mui/material";
 import {
   PhoneInputContainer,
@@ -11,15 +10,10 @@ import { PersonalInformation } from "../../usePersonalInfomationForm";
 import { useFormikContext } from "formik";
 
 const ContactInformationForm = () => {
-  const [alternativeFormFields, setAlternativeFormmFields] = useState({
-    phone: false,
-    email: false,
-  });
-
   const { values, errors, setFieldValue, setErrors } =
     useFormikContext<PersonalInformation>();
 
-  const onChange = (name: string, value: string | undefined) => {
+  const onChange = (name: string, value: string | boolean | undefined) => {
     setErrors({});
     setFieldValue(name, value);
   };
@@ -46,6 +40,19 @@ const ContactInformationForm = () => {
         <SectionContainer>
           <FormFieldContainer>
             <Autocomplete
+              value={
+                values.alternativePhone !== null
+                  ? values.alternativePhone
+                    ? {
+                        label: "Yes",
+                        value: true,
+                      }
+                    : {
+                        label: "No",
+                        value: false,
+                      }
+                  : null
+              }
               options={[
                 { label: "Yes", value: true },
                 { label: "No", value: false },
@@ -53,21 +60,17 @@ const ContactInformationForm = () => {
               renderInput={(params) => (
                 <TextField
                   {...params}
+                  name="alternativePhone"
                   label="Would you like to add an other phone number ?"
                   variant="standard"
                 />
               )}
-              onChange={(_, item) =>
-                setAlternativeFormmFields({
-                  ...alternativeFormFields,
-                  phone: Boolean(item?.value),
-                })
-              }
+              onChange={(_, item) => onChange("alternativePhone", item?.value)}
             />
           </FormFieldContainer>
         </SectionContainer>
         <SectionContainer>
-          {alternativeFormFields.phone && (
+          {values.alternativePhone && (
             <FormFieldContainer>
               <PhoneInput
                 value={values.uds_alternativephone}
@@ -88,6 +91,19 @@ const ContactInformationForm = () => {
         <SectionContainer>
           <FormFieldContainer>
             <Autocomplete
+              value={
+                values.alternativeEmail !== null
+                  ? values.alternativeEmail
+                    ? {
+                        label: "Yes",
+                        value: true,
+                      }
+                    : {
+                        label: "No",
+                        value: false,
+                      }
+                  : null
+              }
               options={[
                 { label: "Yes", value: true },
                 { label: "No", value: false },
@@ -95,21 +111,17 @@ const ContactInformationForm = () => {
               renderInput={(params) => (
                 <TextField
                   {...params}
+                  name="alternativeEmail"
                   label="Would you like to add an other email ?"
                   variant="standard"
                 />
               )}
-              onChange={(_, item) =>
-                setAlternativeFormmFields({
-                  ...alternativeFormFields,
-                  email: Boolean(item?.value),
-                })
-              }
+              onChange={(_, item) => onChange("alternativeEmail", item?.value)}
             />
           </FormFieldContainer>
         </SectionContainer>
         <SectionContainer>
-          {alternativeFormFields.email && (
+          {values.alternativeEmail && (
             <FormFieldContainer>
               <TextField
                 value={values.uds_alternativeemailaddress}
