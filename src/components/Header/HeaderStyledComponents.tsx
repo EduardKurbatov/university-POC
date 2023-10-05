@@ -1,4 +1,4 @@
-import { Box, Select, Typography, styled } from "@mui/material";
+import { Box, Container, Select, Typography, styled } from "@mui/material";
 
 export const HeaderContainer = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -9,9 +9,8 @@ export const HeaderContainer = styled(Box)(({ theme }) => ({
   padding: `${theme.spacing(1)} 0`,
 }));
 
-export const HeaderWrapper = styled(Box)(({ theme }) => ({
+export const HeaderWrapper = styled(Container)(({ theme }) => ({
   display: "flex",
-  width: "80%",
   height: "100%",
   justifyContent: "space-between",
 
